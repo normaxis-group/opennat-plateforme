@@ -131,7 +131,7 @@ new #[Layout('layouts.guest')] class extends Component
     @else
         <p class="mt-2 text-sm text-slate-600">L'accès à l'outil de calcul et au recueil de la méthode est ouvert après confirmation de votre adresse et validation de votre demande par IRICE.</p>
 
-        <form wire:submit="register" class="mt-6 space-y-4" id="mosparo-register-form">
+        <form wire:submit="register" class="mt-6 space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label for="first_name" class="block text-sm font-medium text-gray-700">Prénom *</label>
