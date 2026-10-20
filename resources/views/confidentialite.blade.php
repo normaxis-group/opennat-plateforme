@@ -21,7 +21,7 @@
         <p>Les données sont traitées par IRICE et hébergées sur ses serveurs. Elles ne sont ni vendues ni cédées.</p>
 
         <h2>Durées de conservation</h2>
-        <p>Les données du compte et l'historique des calculs sont conservés pendant la durée du compte et supprimés à sa fermeture. Les projets envoyés à l'outil et leurs résultats le sont {{ config('opennat.conservation_heures') }} heures après le calcul.</p>
+        <p>Les données du compte et l'historique des calculs sont conservés pendant la durée du compte et supprimés à sa fermeture. Les projets envoyés à l'outil et leurs résultats le sont {{ config('opennat.conservation_heures') }} heures après le calcul. Les données du formulaire de demande vérifiées par l'anti-spam mosparo y sont conservées sous forme chiffrée pendant 14 jours.</p>
 
         <h2>Vos droits</h2>
         <p>Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité : écrivez à hello@irice-certification.com. Vous pouvez aussi saisir la CNIL (www.cnil.fr).</p>
