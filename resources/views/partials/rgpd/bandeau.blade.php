@@ -1,6 +1,6 @@
 {{--
     Bandeau de consentement à la mesure d'audience, en barre fine en bas de page (OpenNAT, 21/10/2026, demande
-    de Cédric : discret, court, qui donne envie d'accepter). Socle CNIL du groupe du 18/10/2026 : Matomo garde les
+    de Cédric : une seule ligne, la plus fine possible, boutons à droite). Socle CNIL du groupe du 18/10/2026 : Matomo garde les
     adresses IP complètes, il ne se charge donc qu'après « Accepter » (window.chargerMatomo, partial matomo).
     Le texte peut inciter, les boutons non : « Refuser » a exactement la même taille, la même place et le même
     style qu'« Accepter » (lignes directrices de la CNIL, motif des sanctions de 2021 et 2022 contre les refus
@@ -18,9 +18,9 @@
 <div id="mesure-bandeau" role="region" aria-label="{{ $en ? 'Audience measurement' : "Mesure d'audience" }}" hidden>
     <p class="mb-texte">
         @if ($en)
-            Help us improve this site: may we count your visit? Matomo, on our own servers in the EU, no advertising, nothing sold.
+            Help us improve this site: audience measurement, no advertising.
         @else
-            Aidez-nous à améliorer ce site : acceptez-vous que nous comptions votre visite ? Matomo, sur nos serveurs en Europe, sans publicité ni revente.
+            Aidez-nous à améliorer ce site : mesure d'audience, sans publicité.
         @endif
         <a href="{{ $politique }}">{{ $en ? 'Learn more' : 'En savoir plus' }}</a>
     </p>
@@ -31,16 +31,17 @@
 </div>
 </template>
 <style>
-    #mesure-bandeau{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;gap:12px 20px;flex-wrap:wrap;background:#fff;color:#1f2937;border-top:1px solid #e5e7eb;box-shadow:0 -4px 16px rgba(0,0,0,.08);padding:8px 16px;font:13px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+    #mesure-bandeau{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;color:#1f2937;border-top:1px solid #e5e7eb;box-shadow:0 -2px 8px rgba(0,0,0,.06);padding:4px 12px;font:12px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
     #mesure-bandeau[hidden]{display:none}
-    #mesure-bandeau .mb-texte{margin:0;max-width:52rem}
+    #mesure-bandeau .mb-texte{margin:0;min-width:0}
     #mesure-bandeau a{color:inherit;text-decoration:underline;white-space:nowrap}
-    #mesure-bandeau .mb-actions{display:flex;gap:8px;flex:none}
-    #mesure-bandeau button{min-width:6.5rem}
-    #mesure-bandeau button,.mesure-reglage button{flex:1;cursor:pointer;border-radius:6px;padding:6px 12px;font:600 13px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;border:1px solid {{ $accent }};background:#fff;color:{{ $accent }}}
+    #mesure-bandeau .mb-actions{display:flex;gap:6px;flex:none}
+    #mesure-bandeau button{padding:3px 12px;font-size:12px;min-width:5.5rem}
+    .mesure-reglage button{flex:1;padding:6px 12px;font-size:13px}
+    #mesure-bandeau button,.mesure-reglage button{cursor:pointer;border-radius:5px;font-weight:600;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.2;border:1px solid {{ $accent }};background:#fff;color:{{ $accent }}}
     #mesure-bandeau button:hover,.mesure-reglage button:hover{background:{{ $accent }};color:#fff}
     #mesure-bandeau button:focus-visible,.mesure-reglage button:focus-visible{outline:2px solid {{ $accent }};outline-offset:2px}
-    @media (max-width:640px){#mesure-bandeau{padding:8px 12px}#mesure-bandeau .mb-actions{width:100%}}
+    @media (max-width:480px){#mesure-bandeau button{min-width:0;padding:3px 9px}}
 </style>
 <script>
 (function () {
