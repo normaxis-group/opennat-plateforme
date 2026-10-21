@@ -1,9 +1,10 @@
 {{--
-    Bandeau de consentement à la mesure d'audience (socle CNIL du groupe, 18/10/2026).
-    Matomo n'est pas configuré pour l'exemption de la CNIL (adresses IP complètes) : il ne se charge
-    qu'après « Accepter » (window.chargerMatomo, défini par le partial matomo). Refuser pèse le même
-    poids qu'accepter. Le choix est gardé six mois dans le cookie « mesure_choix » (« ok » ou « refus »).
-    Repris d'efficarbone pour OpenNAT (21/10/2026), sans test A/B.
+    Bandeau de consentement à la mesure d'audience, en barre fine en bas de page (OpenNAT, 21/10/2026, demande
+    de Cédric : discret, court, qui donne envie d'accepter). Socle CNIL du groupe du 18/10/2026 : Matomo garde les
+    adresses IP complètes, il ne se charge donc qu'après « Accepter » (window.chargerMatomo, partial matomo).
+    Le texte peut inciter, les boutons non : « Refuser » a exactement la même taille, la même place et le même
+    style qu'« Accepter » (lignes directrices de la CNIL, motif des sanctions de 2021 et 2022 contre les refus
+    plus difficiles que l'accord). Le choix est gardé six mois dans le cookie « mesure_choix » (« ok » ou « refus »).
     Le partial peut être inclus dans le <head> comme dans le <body> : le bandeau est un <template>
     recopié dans la page au chargement, et une seconde inclusion sur la même page est sans effet.
     Paramètres : $politique (URL de la politique de confidentialité), $accent (couleur des boutons),
@@ -14,17 +15,14 @@
     $accent = $accent ?? '#2B2F44';
 @endphp
 <template id="mesure-bandeau-modele">
-<div id="mesure-bandeau" role="region" aria-label="{{ $en ? 'Audience measurement' : 'Mesure d\'audience' }}" hidden>
-    <p class="mb-titre">{{ $en ? 'Audience measurement' : 'Mesure d\'audience' }}</p>
+<div id="mesure-bandeau" role="region" aria-label="{{ $en ? 'Audience measurement' : "Mesure d'audience" }}" hidden>
     <p class="mb-texte">
         @if ($en)
-            With your consent, this site counts its visits with Matomo, installed on our own servers in the European Union:
-            no advertising, nothing passed on to third parties. Your choice is kept for 6 months and can be changed at any time.
+            Help us improve this site: may we count your visit? Matomo, on our own servers in the EU, no advertising, nothing sold.
         @else
-            Avec votre accord, ce site compte ses visites avec Matomo, installé sur nos serveurs, dans l'Union européenne :
-            aucune publicité, rien de transmis à un tiers. Votre choix est gardé 6 mois et modifiable à tout moment.
+            Aidez-nous à améliorer ce site : acceptez-vous que nous comptions votre visite ? Matomo, sur nos serveurs en Europe, sans publicité ni revente.
         @endif
-        <a href="{{ $politique }}">{{ $en ? 'Privacy policy' : 'Politique de confidentialité' }}</a>
+        <a href="{{ $politique }}">{{ $en ? 'Learn more' : 'En savoir plus' }}</a>
     </p>
     <div class="mb-actions">
         <button type="button" data-mesure="refuser">{{ $en ? 'Decline' : 'Refuser' }}</button>
@@ -33,16 +31,16 @@
 </div>
 </template>
 <style>
-    #mesure-bandeau{position:fixed;left:16px;bottom:16px;z-index:2147483000;max-width:26rem;background:#fff;color:#1f2937;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.15);padding:16px 18px;font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+    #mesure-bandeau{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;gap:12px 20px;flex-wrap:wrap;background:#fff;color:#1f2937;border-top:1px solid #e5e7eb;box-shadow:0 -4px 16px rgba(0,0,0,.08);padding:8px 16px;font:13px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
     #mesure-bandeau[hidden]{display:none}
-    #mesure-bandeau .mb-titre{margin:0 0 4px;font-weight:600;font-size:15px}
-    #mesure-bandeau .mb-texte{margin:0}
-    #mesure-bandeau a{color:inherit;text-decoration:underline}
-    #mesure-bandeau .mb-actions{display:flex;gap:8px;margin-top:12px}
-    #mesure-bandeau button,.mesure-reglage button{flex:1;cursor:pointer;border-radius:6px;padding:8px 12px;font:600 14px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;border:1px solid {{ $accent }};background:#fff;color:{{ $accent }}}
+    #mesure-bandeau .mb-texte{margin:0;max-width:52rem}
+    #mesure-bandeau a{color:inherit;text-decoration:underline;white-space:nowrap}
+    #mesure-bandeau .mb-actions{display:flex;gap:8px;flex:none}
+    #mesure-bandeau button{min-width:6.5rem}
+    #mesure-bandeau button,.mesure-reglage button{flex:1;cursor:pointer;border-radius:6px;padding:6px 12px;font:600 13px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;border:1px solid {{ $accent }};background:#fff;color:{{ $accent }}}
     #mesure-bandeau button:hover,.mesure-reglage button:hover{background:{{ $accent }};color:#fff}
     #mesure-bandeau button:focus-visible,.mesure-reglage button:focus-visible{outline:2px solid {{ $accent }};outline-offset:2px}
-    @media (max-width:480px){#mesure-bandeau{left:12px;right:12px;bottom:12px;max-width:none}}
+    @media (max-width:640px){#mesure-bandeau{padding:8px 12px}#mesure-bandeau .mb-actions{width:100%}}
 </style>
 <script>
 (function () {
