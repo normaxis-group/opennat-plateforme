@@ -23,6 +23,8 @@ class MesureAudienceTest extends TestCase
         foreach (['/', '/conditions-d-utilisation', '/confidentialite', '/connexion', '/inscription', '/mot-de-passe-oublie'] as $chemin) {
             $this->get($chemin)->assertOk()
                 ->assertSee("_paq.push(['setSiteId', '18'])", false)
+                ->assertSee("_paq.push(['addTracker', 'https://matomo.normaxis.com/matomo.php', '19'])", false)
+                ->assertSee("_paq.push(['enableCrossDomainLinking'])", false)
                 ->assertSee('mesure_choix=ok', false)
                 ->assertSee('id="mesure-bandeau-modele"', false)
                 ->assertDontSee('<noscript', false)
