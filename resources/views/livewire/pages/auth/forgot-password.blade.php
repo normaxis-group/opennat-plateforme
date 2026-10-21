@@ -45,7 +45,7 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
     @endif
 
-    <form wire:submit="sendPasswordResetLink" class="space-y-4">
+    <form wire:submit="sendPasswordResetLink" class="space-y-4" data-sans-mesure>
         {{-- Adresse e-mail --}}
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">{{ __("Adresse e-mail") }}</label>
