@@ -112,6 +112,10 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->reset(['password', 'password_confirmation']);
         $this->envoye = true;
+
+        // Conversion Matomo (objectif du site 18 sur la catégorie d'événement « Lead », comme IRICE), émise après
+        // l'enregistrement seulement. Elle attend dans la file _paq : rien ne part sans consentement.
+        $this->js("(window._paq = window._paq || []).push(['trackEvent', 'Lead', 'Demande de compte', window.location.pathname]);");
     }
 }; ?>
 

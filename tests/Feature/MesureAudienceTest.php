@@ -3,7 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Services\MosparoVerifier;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Livewire\Volt\Volt;
 use Tests\TestCase;
 
 /**
@@ -43,5 +47,27 @@ class MesureAudienceTest extends TestCase
             ->assertSee('_pk_id')
             ->assertDontSee('accrédit', false)
             ->assertDontSee('Cofrac');
+    }
+
+    public function test_une_demande_de_compte_enregistree_emet_la_conversion(): void
+    {
+        config(['mosparo.enabled' => true, 'mosparo.project_uuid' => 'p', 'mosparo.public_key' => 'a', 'mosparo.private_key' => 'b']);
+        $this->mock(MosparoVerifier::class, fn ($m) => $m->shouldReceive('verify')->andReturn(true));
+        Mail::fake();
+        Notification::fake();
+        $conversion = "(window._paq = window._paq || []).push(['trackEvent', 'Lead', 'Demande de compte', window.location.pathname]);";
+
+        Volt::test('pages.auth.register')
+            ->set('first_name', 'Claire')->set('last_name', 'Martin')->set('email', 'claire.martin@exemple.fr')
+            ->set('organisation', "Bureau d'études")->set('password', 'Motdepasse-solide-2026')
+            ->set('password_confirmation', 'Motdepasse-solide-2026')
+            ->call('register')
+            ->assertHasErrors('conditions')
+            ->assertNoJs()
+            ->set('conditions', true)
+            ->call('register')
+            ->assertHasNoErrors()
+            ->assertSet('envoye', true)
+            ->assertJs($conversion);
     }
 }
