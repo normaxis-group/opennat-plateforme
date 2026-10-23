@@ -2,7 +2,7 @@
 <!-- Matomo, Site ID 18, matomo.normaxis.com -->
 <script>
   var _paq = window._paq = window._paq || [];
-  {{-- Socle CNIL : Matomo n'est chargé qu'avec l'accord du visiteur (bandeau, politique de confidentialité). --}}
+  {{-- Depuis le 23/10/2026 (décision de Cédric) : Matomo se charge par défaut, sauf refus du visiteur (cookie mesure_choix=refus). --}}
   window.chargerMatomo = function () {
       if (window.chargerMatomo.fait) { return; }
       window.chargerMatomo.fait = true;
@@ -27,7 +27,7 @@
         g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
       })();
   };
-  if (/(?:^|; )mesure_choix=ok/.test(document.cookie)) { window.chargerMatomo(); }
+  if (!/(?:^|; )mesure_choix=refus/.test(document.cookie)) { window.chargerMatomo(); }
 </script>
 <script>
   /* Mesure des contacts (19/10/2026), mêmes noms que normaxis.com : « Contact / Clic courriel », « Contact / Clic

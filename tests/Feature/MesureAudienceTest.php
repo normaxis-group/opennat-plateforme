@@ -25,7 +25,7 @@ class MesureAudienceTest extends TestCase
                 ->assertSee("_paq.push(['setSiteId', '18'])", false)
                 ->assertSee("_paq.push(['addTracker', 'https://matomo.normaxis.com/matomo.php', '19'])", false)
                 ->assertSee("_paq.push(['enableCrossDomainLinking'])", false)
-                ->assertSee('mesure_choix=ok', false)
+                ->assertSee('mesure_choix=refus', false)
                 ->assertSee('id="mesure-bandeau-modele"', false)
                 ->assertDontSee('<noscript', false)
                 ->assertDontSee('matomo.php?idsite', false);

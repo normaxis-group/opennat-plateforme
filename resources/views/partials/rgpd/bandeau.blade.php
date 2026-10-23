@@ -1,7 +1,7 @@
 {{--
     Bandeau de consentement à la mesure d'audience, en barre fine en bas de page (OpenNAT, 21/10/2026, demande
     de Cédric : une seule ligne, la plus fine possible, boutons à droite). Socle CNIL du groupe du 18/10/2026 : Matomo garde les
-    adresses IP complètes, il ne se charge donc qu'après « Accepter » (window.chargerMatomo, partial matomo).
+    adresses IP complètes, il se charge par défaut depuis le 23/10/2026, sauf « Refuser » (window.chargerMatomo, partial matomo).
     Le texte peut inciter, les boutons non : « Refuser » a exactement la même taille, la même place et le même
     style qu'« Accepter » (lignes directrices de la CNIL, motif des sanctions de 2021 et 2022 contre les refus
     plus difficiles que l'accord). Le choix est gardé six mois dans le cookie « mesure_choix » (« ok » ou « refus »).
@@ -62,8 +62,8 @@
     function majReglages() {
         var choix = lire();
         var textes = {
-            fr: { refus: 'Mesure refusée.', ok: 'Mesure acceptée.', aucun: "Aucun choix enregistré : la mesure n'est pas active." },
-            en: { refus: 'Measurement declined.', ok: 'Measurement accepted.', aucun: 'No choice recorded: measurement is not active.' }
+            fr: { refus: 'Mesure refusée.', ok: 'Mesure acceptée.', aucun: 'Aucun refus enregistré : la mesure est active.' },
+            en: { refus: 'Measurement declined.', ok: 'Measurement accepted.', aucun: 'No objection recorded: measurement is active.' }
         };
         document.querySelectorAll('[data-mesure-statut]').forEach(function (el) {
             var t = textes[el.getAttribute('data-langue') === 'en' ? 'en' : 'fr'];

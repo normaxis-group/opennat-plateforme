@@ -7,8 +7,8 @@
     et « google-maps » : chacun est déclaré, puisqu'il reçoit l'adresse IP du visiteur),
     $lang ('fr' ou 'en', par défaut la langue de l'application).
     Le bloc de réglage s'appuie sur le bandeau (partial rgpd.bandeau), présent sur toutes les pages publiques.
-    Matomo relève du consentement (adresses IP complètes, aucune purge réglée) : ne rien écrire ici
-    sur une IP tronquée ou une durée de purge tant que la configuration de Matomo ne le permet pas.
+    Depuis le 23/10/2026 (décision de Cédric) : Matomo est actif par défaut, le visiteur peut refuser (opposition) ;
+    adresses IP complètes, aucune purge réglée : ne rien écrire ici sur une IP tronquée ou une durée de purge.
 --}}
 @php
     $en = str_starts_with($lang ?? app()->getLocale(), 'en');
@@ -29,8 +29,8 @@
         $lignes[] = [$ab, $en ? 'Shows you the same version of a page during a layout test (A/B test), counted only in aggregate, without identifying you; not set if you decline measurement' : 'Affichage d\'une même version de page pendant un test de présentation (test A/B), compté seulement en totaux, sans vous identifier ; non déposé si vous refusez la mesure', $en ? '30 days' : '30 jours'];
     }
     if ($matomo === 'cookies') {
-        $lignes[] = ['_pk_id', $en ? 'Audience measurement, only with your consent: tells visits apart' : 'Mesure d\'audience, seulement avec votre accord : distinction des visites', $en ? '13 months' : '13 mois'];
-        $lignes[] = ['_pk_ses', $en ? 'Audience measurement, only with your consent: groups the pages of one visit' : 'Mesure d\'audience, seulement avec votre accord : regroupement des pages d\'une même visite', $en ? '30 minutes' : '30 minutes'];
+        $lignes[] = ['_pk_id', $en ? 'Audience measurement, unless you object: tells visits apart' : 'Mesure d\'audience, sauf refus de votre part : distinction des visites', $en ? '13 months' : '13 mois'];
+        $lignes[] = ['_pk_ses', $en ? 'Audience measurement, unless you object: groups the pages of one visit' : 'Mesure d\'audience, sauf refus de votre part : regroupement des pages d\'une même visite', $en ? '30 minutes' : '30 minutes'];
     }
     $declarations = [
         'bunny' => [
@@ -60,9 +60,9 @@
 <div class="rgpd-cookies">
     <style>.rgpd-cookies p{margin:0 0 .9em}.rgpd-cookies table{margin:0}</style>
     @if ($en)
-        <p>This site sets no advertising cookie and loads no third-party tracking service{{ $tiersTexte === '' ? ': no Google service, no social network button, no advertising network.' : '. '.$tiersTexte }} Strictly necessary cookies{{ empty($ab) ? ' are' : ' and the A/B test cookie are' }} exempt from consent under the rules of the French data protection authority (CNIL); audience measurement cookies are only set with your consent.</p>
+        <p>This site sets no advertising cookie and loads no third-party tracking service{{ $tiersTexte === '' ? ': no Google service, no social network button, no advertising network.' : '. '.$tiersTexte }} Strictly necessary cookies{{ empty($ab) ? ' are' : ' and the A/B test cookie are' }} exempt from consent under the rules of the French data protection authority (CNIL); audience measurement is active by default and you can object to it at any time below.</p>
     @else
-        <p>Ce site ne dépose aucun cookie publicitaire et ne charge aucun service de suivi tiers{{ $tiersTexte === '' ? ' : ni service Google, ni bouton de réseau social, ni régie publicitaire.' : '. '.$tiersTexte }} Les cookies strictement nécessaires{{ empty($ab) ? ' sont' : ' et le cookie de test A/B sont' }} dispensés de consentement au titre de l'article 82 de la loi Informatique et Libertés, dans les conditions fixées par la CNIL ; les cookies de mesure d'audience ne sont déposés qu'avec votre accord.</p>
+        <p>Ce site ne dépose aucun cookie publicitaire et ne charge aucun service de suivi tiers{{ $tiersTexte === '' ? ' : ni service Google, ni bouton de réseau social, ni régie publicitaire.' : '. '.$tiersTexte }} Les cookies strictement nécessaires{{ empty($ab) ? ' sont' : ' et le cookie de test A/B sont' }} dispensés de consentement au titre de l'article 82 de la loi Informatique et Libertés, dans les conditions fixées par la CNIL ; la mesure d'audience est active par défaut et vous pouvez la refuser à tout moment ci-dessous.</p>
     @endif
     <div style="overflow-x:auto;margin:12px 0">
         <table style="width:100%;border-collapse:collapse;table-layout:fixed;font-size:.95em">
@@ -87,12 +87,12 @@
     </div>
     @if ($matomo)
         @if ($en)
-            <p>With your consent, audience measurement uses Matomo, installed on the NORMAXIS group's servers in the European Union{{ $matomo === 'sans-cookie' ? ', in cookieless mode' : '' }}. Matomo is only loaded once you click « Accept ». It records the pages viewed, the referring site, the type of device and browser, and the IP address. It only serves to produce traffic statistics for the publisher of the site and for the NORMAXIS group, whose sites share one measurement: if you accept it on several of these sites, moving from one to another is linked by an identifier passed in the link, so as to follow your path between them. The data are neither sold nor passed on outside the group nor used for advertising. Visit data are kept for as long as the site is operated, in order to follow changes in its traffic. Legal basis: your consent, which you can withdraw at any time below.</p>
+            <p>Audience measurement uses Matomo, installed on the NORMAXIS group's servers in the European Union{{ $matomo === 'sans-cookie' ? ', in cookieless mode' : '' }}. It is active from your arrival on the site, unless you object to it (banner or button below). It records the pages viewed, the links clicked, the referring site, the town derived from the IP address, the type of device and browser, and the IP address. It only serves to produce traffic statistics for the publisher of the site and for the NORMAXIS group, whose sites share one measurement: moving from one to another is linked by an identifier passed in the link, so as to follow the path between them. The data are neither sold nor passed on outside the group nor used for advertising. Visit data are kept for as long as the site is operated, in order to follow changes in its traffic. Legal basis: the legitimate interest of the group's companies in knowing how their sites are used; you can object at any time below, which stops measurement on this site.</p>
         @else
-            <p>Avec votre accord, la mesure d'audience repose sur Matomo, installé sur les serveurs du groupe NORMAXIS, dans l'Union européenne{{ $matomo === 'sans-cookie' ? ', en mode sans cookie' : '' }}. Matomo n'est chargé qu'après un clic sur « Accepter ». Il enregistre les pages consultées, le site de provenance, le type de terminal et de navigateur, et l'adresse IP. Il sert uniquement à produire des statistiques de fréquentation pour l'éditeur du site et pour le groupe NORMAXIS, dont les sites partagent une même mesure : si vous l'acceptez sur plusieurs de ces sites, le passage de l'un à l'autre est relié par un identifiant transmis dans le lien, pour suivre votre parcours entre eux. Les données ne sont ni vendues, ni transmises hors du groupe, ni utilisées à des fins publicitaires. Les données de visite sont conservées pendant la durée d'exploitation du site, pour suivre l'évolution de sa fréquentation. Base légale : votre consentement, que vous pouvez retirer à tout moment ci-dessous.</p>
+            <p>La mesure d'audience repose sur Matomo, installé sur les serveurs du groupe NORMAXIS, dans l'Union européenne{{ $matomo === 'sans-cookie' ? ', en mode sans cookie' : '' }}. Elle est active dès votre arrivée sur le site, sauf si vous la refusez (bandeau ou bouton ci-dessous). Matomo enregistre les pages consultées, les liens cliqués, le site de provenance, la ville déduite de l'adresse IP, le type de terminal et de navigateur, et l'adresse IP. Il sert uniquement à produire des statistiques de fréquentation pour l'éditeur du site et pour le groupe NORMAXIS, dont les sites partagent une même mesure : le passage de l'un à l'autre est relié par un identifiant transmis dans le lien, pour suivre le parcours entre eux. Les données ne sont ni vendues, ni transmises hors du groupe, ni utilisées à des fins publicitaires. Les données de visite sont conservées pendant la durée d'exploitation du site, pour suivre l'évolution de sa fréquentation. Base légale : l'intérêt légitime des sociétés du groupe à connaître la fréquentation de leurs sites ; vous pouvez vous y opposer à tout moment ci-dessous, la mesure s'arrête alors sur ce site.</p>
         @endif
         <div class="mesure-reglage" style="border:1px solid #e5e7eb;border-radius:8px;padding:12px 14px;margin:12px 0">
-            <p style="margin:0 0 8px"><strong>{{ $en ? 'Your choice:' : 'Votre choix :' }}</strong> <span data-mesure-statut data-langue="{{ $en ? 'en' : 'fr' }}">{{ $en ? 'No choice recorded: measurement is not active.' : 'Aucun choix enregistré : la mesure n\'est pas active.' }}</span></p>
+            <p style="margin:0 0 8px"><strong>{{ $en ? 'Your choice:' : 'Votre choix :' }}</strong> <span data-mesure-statut data-langue="{{ $en ? 'en' : 'fr' }}">{{ $en ? 'No objection recorded: measurement is active.' : 'Aucun refus enregistré : la mesure est active.' }}</span></p>
             <div style="display:flex;gap:8px;flex-wrap:wrap;max-width:24rem">
                 <button type="button" data-mesure="refuser">{{ $en ? 'Decline measurement' : 'Refuser la mesure' }}</button>
                 <button type="button" data-mesure="accepter">{{ $en ? 'Accept measurement' : 'Accepter la mesure' }}</button>

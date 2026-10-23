@@ -9,21 +9,21 @@
             <li><strong>Historique des calculs</strong> : identifiant et nom du projet, nombre de tirages, date et état de chaque calcul.</li>
             <li><strong>Projets envoyés à l'outil</strong> et leurs résultats : effacés du serveur {{ config('opennat.conservation_heures') }} heures après le calcul.</li>
             <li><strong>Données techniques</strong> : journaux du serveur (adresse IP, date, page demandée), cookies de session et de sécurité indispensables à la connexion. Aucun cookie publicitaire.</li>
-            <li><strong>Mesure d'audience</strong>, seulement avec votre accord : pages consultées, site de provenance, type de terminal et de navigateur, adresse IP (voir « Cookies et traceurs »).</li>
+            <li><strong>Mesure d'audience</strong>, sauf refus de votre part : pages consultées, site de provenance, type de terminal et de navigateur, adresse IP (voir « Cookies et traceurs »).</li>
         </ul>
 
         <h2>Finalités et bases légales</h2>
         <ul>
             <li>Ouvrir et gérer les comptes, donner accès à l'outil et au recueil : exécution des conditions d'utilisation.</li>
             <li>Protéger le formulaire de demande contre les envois automatisés (anti-spam mosparo, instance du groupe) et sécuriser la plateforme : intérêt légitime d'IRICE.</li>
-            <li>Mesurer la fréquentation de la plateforme avec Matomo : votre consentement.</li>
+            <li>Mesurer la fréquentation de la plateforme avec Matomo : l'intérêt légitime de l'éditeur, avec un droit d'opposition à tout moment.</li>
         </ul>
 
         <h2>Destinataires</h2>
         <p>Les données sont traitées par IRICE. Elles ne sont ni vendues ni cédées. Sous-traitants :</p>
         <ul>
             <li><strong>Contabo GmbH</strong> (Munich, Allemagne), hébergeur de la plateforme, sur un serveur situé dans l'Union européenne.</li>
-            <li><strong>Matomo, instance du groupe NORMAXIS</strong> (matomo.normaxis.com), sur les serveurs du groupe dans l'Union européenne : mesure d'audience, seulement avec votre accord. Aucune donnée n'est transmise à un service d'analyse tiers.</li>
+            <li><strong>Matomo, instance du groupe NORMAXIS</strong> (matomo.normaxis.com), sur les serveurs du groupe dans l'Union européenne : mesure d'audience, sauf refus de votre part. Aucune donnée n'est transmise à un service d'analyse tiers.</li>
             <li><strong>mosparo, instance du groupe NORMAXIS</strong>, sur les serveurs du groupe dans l'Union européenne : protection du formulaire de demande de compte.</li>
         </ul>
 
@@ -35,6 +35,6 @@
 
         <h2 id="cookies">Cookies et traceurs</h2>
         @include('partials.rgpd.cookies', ['lang' => 'fr', 'services' => ['bunny'], 'souvenir' => 'remember_web_…'])
-        <p>Retirer votre consentement est aussi simple que de le donner : un clic sur « Refuser la mesure » ci-dessus suffit, à tout moment.</p>
+        <p>Vous opposer à la mesure est simple : un clic sur « Refuser la mesure » ci-dessus suffit, à tout moment.</p>
     </article>
 </x-layouts.public>
