@@ -24,6 +24,16 @@ return [
     'alerte_inscriptions' => array_filter(array_map('trim', explode(',', (string) env('OPENNAT_ALERTE_INSCRIPTIONS',
         'hello@irice-certification.com')))),
 
+    // Mesure d'audience : site Matomo de la plateforme, site du parcours entre les sites du groupe et domaines du groupe
+    // (liens inter-domaines). Un nouveau site du groupe s'ajoute à `domaines`.
+    'matomo' => [
+        'site' => 18,
+        'site_groupe' => 19,
+        'domaines' => ['*.irice-certification.com', '*.irice.fr', '*.effinature.com', '*.biodiversity-performance.com',
+            '*.efficarbone.com', '*.scope-impact.org', '*.biodiversite-immobilier.com', '*.novastone.fr',
+            '*.stratoglide.com', '*.normatys.org', '*.normaxis.com'],
+    ],
+
     'depot_url' => 'https://github.com/normaxis-group/opennat',
     'irice_url' => 'https://irice-certification.com',
     'page_irice_url' => 'https://irice-certification.com/opennat',

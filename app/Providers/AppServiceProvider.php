@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
             ->greeting('Bonjour '.($notifiable->first_name ?? '').',')
             ->line('Confirmez votre adresse électronique pour poursuivre votre demande de compte OpenNAT.')
             ->action('Confirmer mon adresse', $url)
-            ->line('Ce lien est valable 60 minutes. Si vous n\'avez rien demandé, ignorez ce message.')
+            ->line('Ce lien est valable '.config('auth.verification.expire', 60).' minutes. Si vous n\'avez rien demandé, ignorez ce message.')
             ->salutation('IRICE, éditeur de l\'outil de calcul OpenNAT'));
 
         ResetPassword::toMailUsing(fn ($notifiable, string $token) => (new MailMessage)
@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             ->action('Choisir un nouveau mot de passe', url(route('password.reset', [
                 'token' => $token, 'email' => $notifiable->getEmailForPasswordReset(),
             ], false)))
-            ->line('Ce lien est valable 60 minutes. Si vous n\'avez rien demandé, ignorez ce message.')
+            ->line('Ce lien est valable '.config('auth.passwords.users.expire').' minutes. Si vous n\'avez rien demandé, ignorez ce message.')
             ->salutation('IRICE, éditeur de l\'outil de calcul OpenNAT'));
     }
 }

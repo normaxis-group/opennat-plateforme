@@ -1,5 +1,5 @@
 {{-- Ni pixel <noscript> (il enregistrerait sans consentement), ni panneau /admin, ni courriels, ni PDF. --}}
-<!-- Matomo, Site ID 18, matomo.normaxis.com -->
+<!-- Matomo, Site ID {{ config('opennat.matomo.site') }}, matomo.normaxis.com -->
 <script>
   var _paq = window._paq = window._paq || [];
   {{-- Depuis le 23/10/2026 (décision de Cédric) : Matomo se charge par défaut, sauf refus du visiteur (cookie mesure_choix=refus). --}}
@@ -10,7 +10,7 @@
       // Parcours entre les sites du groupe (21/10/2026) : un lien vers un autre site du groupe porte l'identifiant
       // du visiteur (pk_vid, valable 10 minutes, le temps d'accepter la mesure sur le site d'arrivée) ; chaque page
       // part aussi vers le site Matomo 19 « GROUPE NORMAXIS », avec le même identifiant que celui du site.
-      _paq.push(['setDomains', ['*.irice-certification.com', '*.irice.fr', '*.effinature.com', '*.biodiversity-performance.com', '*.efficarbone.com', '*.scope-impact.org', '*.biodiversite-immobilier.com', '*.novastone.fr', '*.stratoglide.com', '*.normatys.org', '*.normaxis.com']]);
+      _paq.push(['setDomains', ['{!! implode("', '", config('opennat.matomo.domaines')) !!}']]);
       _paq.push(['enableCrossDomainLinking']);
       _paq.push(['setCrossDomainLinkingTimeout', 600]);
       if (!/[?&]pk_vid=/.test(location.search)) {
@@ -21,8 +21,8 @@
       (function() {
         var u="//matomo.normaxis.com/";
         _paq.push(['setTrackerUrl', u+'matomo.php']);
-        _paq.push(['setSiteId', '18']);
-        _paq.push(['addTracker', 'https://matomo.normaxis.com/matomo.php', '19']);
+        _paq.push(['setSiteId', '{{ config('opennat.matomo.site') }}']);
+        _paq.push(['addTracker', 'https://matomo.normaxis.com/matomo.php', '{{ config('opennat.matomo.site_groupe') }}']);
         var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
         g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
       })();
