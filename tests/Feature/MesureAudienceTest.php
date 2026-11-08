@@ -72,4 +72,27 @@ class MesureAudienceTest extends TestCase
             ->assertSet('envoye', true)
             ->assertJs($conversion);
     }
+
+    public function test_l_inscription_signe_exactement_les_champs_texte_du_formulaire(): void
+    {
+        config(['mosparo.enabled' => true, 'mosparo.project_uuid' => 'p', 'mosparo.public_key' => 'a', 'mosparo.private_key' => 'b']);
+        $recu = null;
+        $this->mock(MosparoVerifier::class, function ($m) use (&$recu) {
+            $m->shouldReceive('verify')->andReturnUsing(function ($submit, $validation, $formData) use (&$recu) {
+                $recu = $formData;
+
+                return false;
+            });
+        });
+
+        Volt::test('pages.auth.register')
+            ->set('first_name', 'Claire')->set('last_name', 'Martin')->set('email', 'claire.martin@exemple.fr')
+            ->set('organisation', 'Bureau')->set('password', 'secret')->call('register');
+
+        $this->assertSame(
+            ['first_name' => 'Claire', 'last_name' => 'Martin', 'email' => 'claire.martin@exemple.fr',
+                'organisation' => 'Bureau', 'fonction' => '', 'phone' => null],
+            $recu,
+        );
+    }
 }

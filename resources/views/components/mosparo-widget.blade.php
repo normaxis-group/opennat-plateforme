@@ -2,11 +2,7 @@
     Composant Mosparo widget - à insérer juste avant le bouton de soumission
     de chaque formulaire public.
 
-    Usage classique (form HTTP standard avec middleware verify.mosparo) :
-        <x-mosparo-widget />
-        <x-mosparo-widget id="mosparo-contact" />
-
-    Usage Livewire (form wire:submit - le middleware HTTP ne s'applique pas) :
+    Usage Livewire (form wire:submit) :
         <x-mosparo-widget id="mosparo-register" :livewire="true" />
 
     En mode Livewire, le widget synchronise automatiquement les 2 tokens

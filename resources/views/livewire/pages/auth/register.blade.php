@@ -28,6 +28,9 @@ new #[Layout('layouts.guest')] class extends Component
     public string $password_confirmation = '';
     public bool $conditions = false;
 
+    /** Champs que le widget mosparo signe (texte visible) : mot de passe et case à cocher n'en font pas partie. */
+    private const CHAMPS_SIGNES = ['first_name', 'last_name', 'email', 'organisation', 'fonction', 'phone'];
+
     public ?string $mosparoSubmitToken = null;
     public ?string $mosparoValidationToken = null;
 
@@ -50,14 +53,7 @@ new #[Layout('layouts.guest')] class extends Component
         $valide = app(MosparoVerifier::class)->verify(
             submitToken: $this->mosparoSubmitToken,
             validationToken: $this->mosparoValidationToken,
-            formData: [
-                'first_name' => $this->first_name,
-                'last_name' => $this->last_name,
-                'email' => $this->email,
-                'organisation' => $this->organisation,
-                'fonction' => $this->fonction,
-                'phone' => $this->phone ?? '',
-            ],
+            formData: $this->only(self::CHAMPS_SIGNES),
         );
         if (! $valide) {
             $this->addError('mosparo', 'Vérification anti-spam échouée. Rechargez la page et cochez de nouveau la case « Je ne suis pas un robot ».');

@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Mosparo anti-spam — config commune aux 5 sites NORMAXIS
+| Mosparo anti-spam — configuration de l'anti-spam
 |--------------------------------------------------------------------------
 |
 | Mosparo est l'instance auto-hébergée sur https://spam.normaxis.group qui
@@ -21,9 +21,7 @@
 | Désactivation rapide en cas d'incident (Mosparo down, faux positifs sur
 | un volume important, etc.) :
 |   MOSPARO_ENABLED=false dans le .env du site
-|   → le middleware VerifyMosparo laisse passer toutes les soumissions
-|     (le honeypot et la captcha intégrée au navigateur restent actifs).
-|     Aucun blocage UX côté visiteur.
+|   → MosparoVerifier laisse passer toutes les soumissions.
 */
 
 return [
@@ -60,18 +58,12 @@ return [
     'private_key' => env('MOSPARO_PRIVATE_KEY'),
 
     /**
-     * Kill-switch global. À false, le middleware VerifyMosparo bypasse la
+     * Kill-switch global. À false, MosparoVerifier bypasse la
      * vérification : utile en cas d'incident sur spam.normaxis.group ou
      * en local dev pour ne pas avoir à configurer Mosparo. Le honeypot
      * existant (company_url_secondary) reste actif comme défense.
      */
     'enabled' => filter_var(env('MOSPARO_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
-
-    /**
-     * Timeout HTTP du POST de vérification (en secondes). Court, pour ne
-     * pas faire patienter l'utilisateur si Mosparo rame.
-     */
-    'http_timeout' => (int) env('MOSPARO_TIMEOUT', 5),
 
     /**
      * Comportement quand l'API Mosparo ne répond pas (timeout / 5xx).
@@ -87,16 +79,6 @@ return [
     'on_failure' => env('MOSPARO_ON_FAILURE', 'allow'),
 
     /**
-     * Nom des champs cachés posés par le widget JS Mosparo dans le form.
-     * Utilisés à la fois côté Blade (pour ne pas les valider Laravel) et
-     * côté Verifier (pour les extraire de la Request avant la vérif).
-     */
-    'fields' => [
-        'submit_token' => '_mosparo_submitToken',
-        'validation_token' => '_mosparo_validationToken',
-    ],
-
-    /**
      * Champs à EXCLURE de la signature backend, car Mosparo (côté frontend)
      * les exclut aussi de la signature. La règle Mosparo est :
      *   "le widget JS ignore automatiquement les types hidden, checkbox,
@@ -107,41 +89,11 @@ return [
      * signature ne match pas → Mosparo répond "valid: false" → l'utilisateur
      * voit "La vérification anti-spam a échoué" alors que tout va bien.
      *
-     * → Maintenir ici la liste de TOUS les champs hidden / checkbox / radio
-     *   / password présents dans les 3 formulaires IRICE (contact, breeam,
-     *   formations).
-     *
-     * Astuce : si un nouveau champ hidden est ajouté à un form sans être
-     * listé ici, le formulaire commencera à renvoyer "anti-spam invalide"
-     * en prod. Le réflexe : ajouter le champ ici et `php artisan config:clear`.
+     * Ici, seul le jeton CSRF de Laravel est à écarter ; si un champ caché ou une case
+     * à cocher est ajouté à un formulaire signé, l'ajouter à cette liste.
      */
     'ignored_fields' => [
-        // ── Hidden inputs (auto-ignorés par le widget Mosparo frontend) ──
-        // Cf. doc Mosparo Custom integration → Ignored fields :
-        //   "mosparo does not validate field types like checkbox, radio,
-        //    password, and hidden."
-        '_token',                   // CSRF Laravel (hidden)
-        'source_page',              // hidden, page source du lead
-        'utm_source',               // hidden, tracking marketing
-        'utm_medium',
-        'utm_campaign',
-        'utm_content',
-        'utm_term',
-        'programme',                // hidden, programme demandé (BREEAM)
-
-        // ── Checkboxes (auto-ignorées par le widget Mosparo frontend) ──
-        'rgpd_consent',             // consentement RGPD (présent partout)
-
-        // NOTE : ne PAS ajouter ici 'company_url_secondary'.
-        // Le honeypot est en type="text" (caché en CSS), donc Mosparo
-        // frontend le SIGNE comme un champ normal. Si on le filtre ici,
-        // mismatch de signature → "La vérification anti-spam a échoué".
-        // Pour humains la valeur est "" → signatures égales, OK.
-        // Pour bots qui n'exécutent pas le JS Mosparo : pas de submitToken
-        // → bloqués par le middleware avant même la vérif signature.
-
-        // Si tu ajoutes un nouveau champ hidden ou checkbox dans un form,
-        // pense à l'ajouter ici. Sinon → "anti-spam invalide" mystérieux.
+        '_token', // CSRF Laravel (hidden)
     ],
 
 ];
