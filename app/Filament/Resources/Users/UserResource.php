@@ -34,7 +34,7 @@ class UserResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $n = User::where('is_active', false)->whereNull('validated_at')->count();
+        $n = User::enAttente()->count();
 
         return $n ? (string) $n : null;
     }

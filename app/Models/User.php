@@ -7,6 +7,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -59,8 +60,24 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->belongsTo(User::class, 'validated_by');
     }
 
+    /** Demande d'ouverture de compte pas encore traitée : ni active, ni jamais validée. */
+    public function scopeEnAttente(Builder $q): Builder
+    {
+        return $q->where('is_active', false)->whereNull('validated_at');
+    }
+
     public function estEnAttente(): bool
     {
         return ! $this->is_active && $this->validated_at === null;
+    }
+
+    public function valider(?User $par): void
+    {
+        $this->forceFill(['is_active' => true, 'validated_at' => now(), 'validated_by' => $par?->id])->save();
+    }
+
+    public function desactiver(): void
+    {
+        $this->forceFill(['is_active' => false])->save();
     }
 }

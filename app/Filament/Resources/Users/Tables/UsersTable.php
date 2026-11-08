@@ -39,7 +39,7 @@ class UsersTable
             ])
             ->filters([
                 Filter::make('en_attente')->label('Demandes en attente')
-                    ->query(fn (Builder $q) => $q->where('is_active', false)->whereNull('validated_at')),
+                    ->query(fn (Builder $q) => $q->enAttente()),
                 TernaryFilter::make('is_active')->label('Actif'),
                 TernaryFilter::make('email_verified_at')->label('Adresse confirmée')->nullable(),
             ])
@@ -52,7 +52,7 @@ class UsersTable
                         ? 'Le titulaire reçoit un message et accède à l\'outil et au recueil.'
                         : 'Attention : l\'adresse n\'est pas encore confirmée. Le titulaire ne pourra se connecter qu\'après l\'avoir confirmée.')
                     ->action(function (User $u): void {
-                        $u->forceFill(['is_active' => true, 'validated_at' => now(), 'validated_by' => auth()->id()])->save();
+                        $u->valider(auth()->user());
                         try {
                             Mail::to($u->email)->send(new CompteValide($u));
                         } catch (\Throwable $e) {
@@ -65,7 +65,7 @@ class UsersTable
                     ->requiresConfirmation()
                     ->modalHeading('Désactiver ce compte ?')
                     ->modalDescription('La session en cours est coupée à la requête suivante ; l\'historique des calculs est conservé.')
-                    ->action(fn (User $u) => $u->forceFill(['is_active' => false])->save()),
+                    ->action(fn (User $u) => $u->desactiver()),
                 EditAction::make(),
             ]);
     }
