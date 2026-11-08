@@ -18,5 +18,4 @@ Route::get('confirmation-adresse/{id}/{hash}', VerifyEmailController::class)
 
 Route::middleware('auth')->group(function () {
     Volt::route('adresse-a-confirmer', 'pages.auth.verify-email')->name('verification.notice');
-    Volt::route('confirmer-le-mot-de-passe', 'pages.auth.confirm-password')->name('password.confirm');
 });

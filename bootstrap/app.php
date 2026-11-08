@@ -28,7 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // mosparo signe chaque champ : ne rien réécrire d'une soumission qui porte son jeton.
         $signee = fn (Request $request) => $request->isMethod('POST')
-            && $request->has(config('mosparo.fields.submit_token', '_mosparo_submitToken'));
+            && $request->has('_mosparo_submitToken');
         TrimStrings::skipWhen($signee);
         ConvertEmptyStringsToNull::skipWhen($signee);
 

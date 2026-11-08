@@ -35,8 +35,6 @@ return [
     ],
 
     'depot_url' => 'https://github.com/normaxis-group/opennat',
-    'irice_url' => 'https://irice-certification.com',
-    'page_irice_url' => 'https://irice-certification.com/opennat',
     'mentions_legales_url' => 'https://irice-certification.com/mentions-legales',
 
     // Faits de la méthode (version 1, données 1.2.2), relevés dans le dépôt.
