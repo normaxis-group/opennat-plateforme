@@ -4,9 +4,11 @@ namespace Tests\Feature;
 
 use App\Models\Calcul;
 use App\Models\User;
+use App\Services\PageMoteur;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request as RequeteMoteur;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 /**
@@ -72,5 +74,37 @@ class RelaisMoteurTest extends TestCase
         $this->assertStringNotContainsString('Version en ligne', $html);
         $this->assertStringContainsString('effacés du serveur', $html);
         $this->assertStringContainsString('Mon espace', $html);
+    }
+
+    public function test_chaque_point_d_acces_est_relaye_ou_refuse_comme_avant(): void
+    {
+        $u = User::factory()->create();
+        Calcul::create(['user_id' => $u->id, 'moteur_id' => 'mien1']);
+        Calcul::create(['user_id' => $u->id, 'moteur_id' => 'zzz999']);
+        Http::fake(['moteur.test/*' => Http::response('{"calcul":"nouveau1"}', 200, ['Content-Type' => 'application/json'])]);
+
+        foreach (['referentiel', 'exemple', 'valider', 'rsee', 'materiaux', 'calcul/mien1', 'resultats/mien1',
+            'fichiers/mien1', 'fichier/mien1', 'rsnat/mien1.xml', 'fiche/mien1.docx'] as $chemin) {
+            $this->actingAs($u)->getJson('/api/'.$chemin)->assertOk();
+        }
+        foreach (['calcul', 'nimporte', 'calcul/mien1/autre-chose-inconnu'] as $chemin) {
+            $reponse = $this->actingAs($u)->getJson('/api/'.$chemin);
+            $this->assertContains($reponse->status(), [200, 404], $chemin);
+        }
+        $this->actingAs($u)->getJson('/api/nimporte')->assertNotFound();
+        $this->actingAs($u)->getJson('/api/resultats/inconnu')->assertNotFound();
+        $this->actingAs($u)->postJson('/api/calcul', ['reprendre' => 'inconnu'])->assertNotFound();
+        $this->actingAs($u)->postJson('/api/calcul', ['reprendre' => 'zzz999'])->assertOk();
+    }
+
+    public function test_un_repere_manquant_dans_la_page_du_moteur_est_signale_au_journal(): void
+    {
+        Log::spy();
+
+        $html = (new PageMoteur)->adapter('<html><head></head><body></body></html>', 'jeton', 24, 'http://x.test/espace');
+
+        $this->assertStringContainsString('name="csrf-token"', $html);
+        $this->assertStringNotContainsString('Mon espace', $html);
+        Log::shouldHaveReceived('warning')->with('Page du moteur : repère introuvable, retouche non appliquée', \Mockery::any())->times(3);
     }
 }

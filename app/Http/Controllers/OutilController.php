@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Calcul;
+use App\Services\PageMoteur;
+use App\Services\PointsAccesMoteur;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response as ReponseMoteur;
 use Illuminate\Http\Request;
@@ -19,28 +21,10 @@ use Illuminate\Support\Facades\Http;
  */
 class OutilController extends Controller
 {
-    /** Points d'accès qui portent l'identifiant d'un calcul en deuxième segment. */
-    private const PAR_CALCUL = ['calcul', 'resultats', 'fichiers', 'fichier', 'rsnat', 'fiche'];
-
-    /** Points d'accès sans calcul, ouverts à tout compte validé. */
-    private const LIBRES = ['referentiel', 'exemple', 'valider', 'rsee', 'materiaux'];
-
     public function page(Request $request): Response
     {
         $r = $this->moteur($request, 'GET', '/');
-        $html = $r->body();
-
-        // La mention de la version anonyme du moteur ne vaut pas ici : la plateforme a des comptes.
-        $html = preg_replace('#<p class="edition">Version en ligne.*?</p>#s', '', $html);
-        $note = '<p class="edition">Vos projets et leurs résultats sont effacés du serveur '
-            .(int) config('opennat.conservation_heures').' heures après le calcul : enregistrez votre fichier projet '
-            .'et vos résultats sur votre poste.</p>';
-        $html = str_replace('</aside>', $note.'</aside>', $html);
-        $html = str_replace('</head>', '<meta name="csrf-token" content="'.e(csrf_token()).'">'."\n</head>", $html);
-        $html = str_replace('<script src="/statique/app.js"></script>',
-            '<script src="/outil-csrf.js"></script>'."\n".'<script src="/statique/app.js"></script>', $html);
-        $html = str_replace('<div class="actions">', '<div class="actions"><a href="'.e(route('espace'))
-            .'" style="color:#fff;text-decoration:none;margin-right:12px;font-size:14px">Mon espace</a>', $html);
+        $html = (new PageMoteur)->adapter($r->body(), csrf_token(), (int) config('opennat.conservation_heures'), route('espace'));
 
         return response($html, $r->status(), ['Content-Type' => 'text/html; charset=utf-8', 'Cache-Control' => 'no-store']);
     }
@@ -57,25 +41,23 @@ class OutilController extends Controller
 
     public function api(Request $request, string $chemin): Response
     {
-        $parts = explode('/', trim($chemin, '/'));
-        $point = $parts[0] ?? '';
+        $acces = new PointsAccesMoteur(explode('/', trim($chemin, '/')));
         $user = $request->user();
+        $corps = null;
 
-        if (in_array($point, self::PAR_CALCUL, true) && count($parts) >= 2) {
-            $id = explode('.', $parts[1])[0];
-            abort_unless(Calcul::where('moteur_id', $id)->where('user_id', $user->id)->exists(), 404);
-        } elseif ($point === 'calcul' && count($parts) === 1) {
+        if ($acces->porteUnCalcul()) {
+            abort_unless($this->appartient($acces->identifiantCalcul(), $user->id), 404);
+        } elseif ($acces->estCreation()) {
             $corps = json_decode($request->getContent(), true) ?: [];
             $reprise = $corps['reprendre'] ?? null;
-            abort_if($reprise && ! Calcul::where('moteur_id', $reprise)->where('user_id', $user->id)->exists(), 404);
-        } elseif (! in_array($point, self::LIBRES, true)) {
+            abort_if($reprise && ! $this->appartient($reprise, $user->id), 404);
+        } elseif (! $acces->estLibre()) {
             abort(404);
         }
 
-        $r = $this->moteur($request, $request->method(), '/api/'.implode('/', $parts), true);
+        $r = $this->moteur($request, $request->method(), $acces->chemin(), true);
 
-        if ($point === 'calcul' && count($parts) === 1 && $request->isMethod('POST') && $r->successful()) {
-            $corps = json_decode($request->getContent(), true) ?: [];
+        if ($acces->estCreation() && $request->isMethod('POST') && $r->successful()) {
             Calcul::create([
                 'user_id' => $user->id,
                 'moteur_id' => (string) $r->json('calcul'),
@@ -83,10 +65,10 @@ class OutilController extends Controller
                 'projet_nom' => mb_substr((string) data_get($corps, 'projet.projet.nom'), 0, 255) ?: null,
                 'tirages' => is_numeric($corps['tirages'] ?? null) ? (int) $corps['tirages'] : null,
             ]);
-        } elseif ($point === 'calcul' && count($parts) === 2 && $request->isMethod('GET') && $r->successful()) {
+        } elseif ($acces->estSuivi() && $request->isMethod('GET') && $r->successful()) {
             $etat = (string) $r->json('etat');
             if ($etat !== '' && $etat !== 'en_cours') {
-                Calcul::where('moteur_id', $parts[1])->where('etat', '!=', $etat)->update(['etat' => $etat]);
+                Calcul::where('moteur_id', $acces->identifiantCalcul())->where('etat', '!=', $etat)->update(['etat' => $etat]);
             }
         }
 
@@ -96,6 +78,11 @@ class OutilController extends Controller
         }
 
         return response($r->body(), $r->status(), $entetes);
+    }
+
+    private function appartient(mixed $moteurId, int $userId): bool
+    {
+        return Calcul::where('moteur_id', $moteurId)->where('user_id', $userId)->exists();
     }
 
     private function moteur(Request $request, string $methode, string $chemin, bool $avecCorps = false): ReponseMoteur
