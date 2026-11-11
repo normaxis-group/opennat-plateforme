@@ -16,7 +16,7 @@
         <h2>Calculs et résultats</h2>
         <ul>
             <li>L'utilisateur répond des données qu'il saisit ou importe. Les projets envoyés et leurs résultats sont effacés du serveur {{ config('opennat.conservation_heures') }} heures après le calcul ; l'utilisateur enregistre ses fichiers sur son poste.</li>
-            <li>La méthode OpenNAT est en attente de validation du Biodiversity Standard Council : ses seuils sont des propositions et ses résultats ont une valeur indicative.</li>
+            <li>Les seuils de la méthode OpenNAT sont des propositions et ses résultats ont une valeur indicative.</li>
             <li>Un résultat OpenNAT est le calcul d'un projet à une version donnée de la méthode et des données. La certification d'une opération relève d'un organisme de certification, selon le référentiel qu'il applique. Un niveau du calcul repris dans une communication s'accompagne de la version de la méthode, du périmètre et des valeurs de Cnat et d'Inat.</li>
         </ul>
 

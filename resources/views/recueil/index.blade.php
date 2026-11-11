@@ -1,9 +1,8 @@
 <x-layouts.app titre="La méthode">
     <h1 class="text-2xl font-semibold text-encre">Recueil de la méthode OpenNAT</h1>
     <p class="mt-2 max-w-3xl text-sm text-slate-600">
-        Textes de la méthode éditée par NORMATYS, proposée au Biodiversity Standard Council, comité scientifique et technique
-        des référentiels NORMATYS. Tant qu'elle n'est pas validée, ses seuils sont des propositions et ses résultats ont une
-        valeur indicative. Les tables de données sont publiées avec le moteur sur
+        Textes de la méthode éditée par NORMATYS. Ses seuils sont des propositions et ses résultats ont une valeur
+        indicative. Les tables de données sont publiées avec le moteur sur
         <a href="{{ config('opennat.depot_url') }}" class="text-bps-700 underline" target="_blank" rel="noopener">GitHub</a>.
     </p>
 

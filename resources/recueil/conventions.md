@@ -1,6 +1,6 @@
 # Conventions de la méthode OpenNAT v1
 
-Une convention est une règle ou une valeur que OpenNAT fixe parce qu'aucune source ne la donne telle quelle. Chacune est numérotée, citée dans le texte de la méthode et dans la colonne `convention` des tables de `donnees/`, et soumise au Biodiversity Standard Council avec la méthode. Toutes sont « proposées, en attente de validation ».
+Une convention est une règle ou une valeur que OpenNAT fixe parce qu'aucune source ne la donne telle quelle. Chacune est numérotée, citée dans le texte de la méthode et dans la colonne `convention` des tables de `donnees/`. Toutes sont proposées.
 
 Familles : H habitats, S sols, E contexte, eau et seuils, C connectivité, N nuisances, T temps, G biodiversité grise, R relevés, I incertitude, B Bnat, P attestation au permis de construire, W bilan hydrique et climat, L éclairage, M maturation et gestion, K calendrier du chantier.
 
@@ -73,8 +73,8 @@ Catégorie : convention de transposition.
 La part des eaux pluviales infiltrées ou gérées à ciel ouvert est un indicateur complémentaire. Elle entre dans Bnat par le bonus d'infiltration de Berlin (0,2 par m² de surface extérieure dont l'eau est infiltrée en surface).
 
 ### C-E6
-Catégorie : convention de transposition.
-Les seuils de Bnat sont ceux du coefficient de biotope par surface harmonisé du référentiel Effinature 8.1 (critère SOL 01.2.5), appliqués à Bnat / 100 : logements et équipements d'intérêt collectif, 45 si l'emprise du bâti va jusqu'à 37 %, 35 de 38 à 49 %, 25 au-delà ; commerces, bureaux et hébergements avec services, 25. S'y ajoute au moins 15 % de pleine terre végétalisée. Bnat et le CBSh n'emploient pas les mêmes coefficients (ceux du CBSh sont exclus pour leur licence) : l'écart entre les deux sur des projets réels sera mesuré au banc du lot 4.
+Catégorie : valeur de secours.
+Les seuils de Bnat sont fixés par OpenNAT et s'appliquent à Bnat / 100 : logements et équipements d'intérêt collectif, 45 si l'emprise du bâti va jusqu'à 37 %, 35 de 38 à 49 %, 25 au-delà ; commerces, bureaux et hébergements avec services, 25. S'y ajoute au moins 15 % de pleine terre végétalisée.
 
 ### C-E7
 Catégorie : convention de transposition.
@@ -228,7 +228,7 @@ L'évapotranspiration de référence horaire suit l'équation 53 de la FAO-56 (g
 
 ### C-W3
 Catégorie : valeur de secours.
-La note technique des fichiers prospectifs indique que leurs cumuls de pluie sont proches des maxima des simulations, pas des médianes. Les pluies horaires de chaque année type sont donc recalées, mois par mois, sur la normale 1991-2020 de la station (données climatologiques de base mensuelles de Météo-France, Licence Ouverte 2.0) ; la chronologie des averses est conservée. Le cumul de pluie ne varie pas avec le réchauffement, la carte de la TRACC laissant incertain le signe de son évolution sur la plupart du territoire : le réchauffement agit par l'évapotranspiration. Cette convention sous-estime probablement les sécheresses d'été futures ; elle sera revue avec le conseil quand un jeu de pluies médianes par niveau de réchauffement sera publié.
+La note technique des fichiers prospectifs indique que leurs cumuls de pluie sont proches des maxima des simulations, pas des médianes. Les pluies horaires de chaque année type sont donc recalées, mois par mois, sur la normale 1991-2020 de la station (données climatologiques de base mensuelles de Météo-France, Licence Ouverte 2.0) ; la chronologie des averses est conservée. Le cumul de pluie ne varie pas avec le réchauffement, la carte de la TRACC laissant incertain le signe de son évolution sur la plupart du territoire : le réchauffement agit par l'évapotranspiration. Cette convention sous-estime probablement les sécheresses d'été futures ; elle sera revue quand un jeu de pluies médianes par niveau de réchauffement sera publié.
 
 ### C-W4
 Catégorie : valeur de secours.

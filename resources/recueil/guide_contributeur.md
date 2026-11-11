@@ -1,14 +1,14 @@
 # Guide du contributeur d'OpenNAT
 
-Méthode OpenNAT 1, moteur 0.2.0, données 1.2.1. 19 octobre 2026. Méthode éditée par NORMATYS, en attente de validation du Biodiversity Standard Council.
+Méthode OpenNAT 1, moteur 0.2.0, données 1.2.3. 11 novembre 2026. Méthode éditée par NORMATYS.
 
-Ce guide s'adresse à qui veut améliorer OpenNAT : écologue qui dispose d'une meilleure valeur pour un habitat, chercheur qui publie un facteur, bureau d'études qui relève une incohérence, développeur. Il dit surtout comment proposer une nouvelle valeur avec sa source, ce que le cahier des charges demande en premier.
+Ce guide s'adresse à qui veut améliorer OpenNAT : écologue qui dispose d'une meilleure valeur pour un habitat, chercheur qui publie un facteur, bureau d'études qui relève une incohérence, développeur. Il dit surtout comment proposer une nouvelle valeur avec sa source.
 
 ## Trois règles
 
 1. Toute valeur a une source. Chaque nombre employé par le calcul est une ligne d'une table de `donnees/`, avec sa source, sa référence précise, sa licence et son type. Une ligne sans source fait échouer le chargement (exigence E1).
 2. Aucune valeur de méthode dans le code. Le moteur lit les tables ; un test parcourt le code et refuse tout nombre qui serait une valeur de méthode (exigence E2). Seules les conversions d'unités vivent dans `opennat/unites.py`.
-3. Toute convention a un numéro. Quand aucune source ne donne la valeur, OpenNAT la fixe par une convention numérotée (C-H1, C-G5…) décrite dans `methode/conventions.md`, avec son motif. Les conventions et les seuils sont soumis au Biodiversity Standard Council.
+3. Toute convention a un numéro. Quand aucune source ne donne la valeur, OpenNAT la fixe par une convention numérotée (C-H1, C-G5…) décrite dans `methode/conventions.md`, avec son motif.
 
 ## Le format d'une ligne
 
@@ -49,7 +49,7 @@ Certaines tables s'écrivent à la main ; d'autres sont produites par un script 
 | Table | Contenu | Modifier |
 |---|---|---|
 | `habitats.csv` | valeurs intrinsèques, délais, difficultés, plafonds par type d'habitat | `outils/construire_habitats.py` et `nomenclature_habitats.csv` |
-| `nomenclature_habitats.csv` | types OpenNAT, correspondances EUNIS, BKompV et métrique anglaise, grille d'état | à la main ; colonne `grille_etat` par `outils/construire_grilles.py` |
+| `nomenclature_habitats.csv` | types OpenNAT, correspondances EUNIS, BKompV et métrique anglaise, grille d'état | à la main, colonne `grille_etat` comprise |
 | `sols.csv` | coefficients de nature de surface | `outils/construire_sols.py` |
 | `climat.csv` et `climat/*.csv.gz` | stations, normales de pluie, fichiers horaires prospectifs | `outils/construire_climat.py` |
 | `hydrique.csv`, `eclairage.csv`, `succession.csv`, `chantier.csv` | modules dynamiques | `outils/construire_dynamique.py` |
@@ -59,7 +59,7 @@ Certaines tables s'écrivent à la main ; d'autres sont produites par un script 
 
 ## Proposer une valeur : la marche à suivre
 
-1. Trouver la ligne. La partie 2 de l'édition complète (données conventionnelles) liste chaque valeur avec sa table, sa clé et son paramètre ; `grep` dans `donnees/` fait le reste.
+1. Trouver la ligne : chaque valeur est une ligne d'une table de `donnees/`, avec sa clé et son paramètre ; `grep` la retrouve.
 2. Réunir la source : référence complète, emplacement précis de la valeur, adresse, licence. Pour une transposition, écrire la conversion. Pour les bornes, prendre l'intervalle publié ; à défaut, l'étendue des valeurs de la source ; à défaut, des bornes égales à la valeur et une justification qui le dit.
 3. Modifier la ligne, ou le script de construction et le relancer. Ne changer qu'une chose à la fois.
 4. Contrôler les tables :
@@ -84,7 +84,7 @@ La première commande recalcule les résultats attendus des 73 cas avec le carne
 6. Inscrire la version. Ajouter au `JOURNAL_DES_VERSIONS.md` une version des données avec la date, l'empreinte affichée par `python -m opennat controle`, chaque ligne modifiée (avant, après, source) et l'effet sur les huit cas tests. Puis régénérer l'instantané (`python -m banc.regression --ecrire`) et lancer `python -m pytest`.
 7. Soumettre la modification en un seul commit, message en français au format des commits conventionnels, par exemple `fix(donnees): production biologique des forêts tempérées d'après <source>`, avec le journal, l'instantané et le rapport de couverture.
 
-La décision d'intégrer une valeur appartient à l'éditeur de la méthode, NORMATYS. Une valeur primaire qui remplace une convention ou une transposition est le cas le plus simple. Une nouvelle convention, ou un changement de seuil, passe devant le Biodiversity Standard Council.
+La décision d'intégrer une valeur appartient à l'éditeur de la méthode, NORMATYS. Une valeur primaire qui remplace une convention ou une transposition est le cas le plus simple. Une nouvelle convention, ou un changement de seuil, fait l'objet d'une nouvelle révision de la méthode.
 
 ## Modèle de proposition
 
@@ -103,7 +103,7 @@ Une proposition, qu'elle arrive par un commit ou par écrit, tient en un tableau
 
 ## Ajouter un type d'habitat
 
-Un type nouveau demande une ligne dans `nomenclature_habitats.csv` (code, libellé, correspondances EUNIS, BKompV et métrique anglaise, justification), la reconstruction de `habitats.csv`, la grille d'état (`outils/construire_grilles.py`), puis le contrôle et le banc comme ci-dessus. La partie 4 de l'édition (fiches habitats) se régénère d'elle-même.
+Un type nouveau demande une ligne dans `nomenclature_habitats.csv` (code, libellé, correspondances EUNIS, BKompV et métrique anglaise, justification), la reconstruction de `habitats.csv`, la grille d'état (colonne `grille_etat`), puis le contrôle et le banc comme ci-dessus.
 
 ## Ajouter un cas au banc
 
@@ -120,7 +120,7 @@ Un cas se décrit dans `outils/edition/cas_validation.py`, `cas_complementaires.
 ## Numéros de version
 
 - Méthode : OpenNAT 1 tant que le texte garde ses équations ; une révision change la date et s'inscrit au journal ; une équation modifiée fait OpenNAT 2.
-- Données : 1.2.1 aujourd'hui. Le troisième chiffre change pour une correction sans effet sur un résultat (unité, libellé, source) ; le deuxième pour une valeur ou une ligne ajoutée ; le premier quand la structure des tables change. L'empreinte des tables identifie chaque version.
+- Données : 1.2.3 aujourd'hui. Le troisième chiffre change pour une correction sans effet sur un résultat (unité, libellé, source) ; le deuxième pour une valeur ou une ligne ajoutée ; le premier quand la structure des tables change. L'empreinte des tables identifie chaque version.
 - Moteur : 0.2.0 aujourd'hui, versions sémantiques ; il passera en 1.0.0 à la validation de la méthode.
 
 Le `JOURNAL_DES_VERSIONS.md` tient l'historique des trois.

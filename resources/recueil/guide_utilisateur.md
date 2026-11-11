@@ -1,8 +1,8 @@
 # Guide utilisateur d'OpenNAT
 
-Outil de calcul OpenNAT édité par IRICE. Méthode OpenNAT 1, moteur 0.2.0, données 1.2.2. 19 octobre 2026. Méthode éditée par NORMATYS, en attente de validation du Biodiversity Standard Council : tant qu'elle n'est pas validée, ses seuils et ses résultats ne sont pas opposables.
+Outil de calcul OpenNAT édité par IRICE. Méthode OpenNAT 1, moteur 0.2.0, données 1.2.3. 11 novembre 2026. Méthode éditée par NORMATYS : ses seuils et ses résultats ne sont pas opposables.
 
-Ce guide s'adresse au bureau d'études ou à l'écologue qui calcule un projet. Il dit quelles données réunir, comment les saisir, comment lancer le calcul et comment lire les résultats. Le détail des calculs est dans le texte de la méthode (fiches algorithmes de la partie 3) ; les valeurs employées sont dans les tables de données (partie 2).
+Ce guide s'adresse au bureau d'études ou à l'écologue qui calcule un projet. Il dit quelles données réunir, comment les saisir, comment lancer le calcul et comment lire les résultats. Le détail des calculs est dans le texte de la méthode (chapitre 7, étapes et modules de calcul) ; les valeurs employées sont dans les tables de `donnees/`.
 
 ## Ce que calcule OpenNAT
 
@@ -36,7 +36,7 @@ La seconde commande contrôle les tables de données et la cohérence des unité
 | Donnée | Où la trouver | Obligatoire |
 |---|---|---|
 | Surface de la parcelle, zone biogéographique, typologie (logement, tertiaire, industrie, aménagement), zone climatique | dossier de permis, RSEE | oui |
-| État initial : chaque unité de végétation ou de surface, avec son type, sa surface et son état | relevé de terrain selon les protocoles de la partie 6 | oui |
+| État initial : chaque unité de végétation ou de surface, avec son type, sa surface et son état | relevé de terrain | oui |
 | État projet : chaque unité du plan masse, avec son type, sa position (pleine terre, dalle, toiture, façade, eau, arbre, haie) et son état prévu | plan masse, carnet paysager | oui |
 | Bâtiments : S_ref, emprise, durée du chantier, émissions par phase | RSEE de l'étude RE2020 | pour Inat |
 | Bois (volume, régime forestier, pièce justificative) et granulats (tonnes) | métrés, ACV | pour Inat |
@@ -143,8 +143,8 @@ Une donnée facultative absente prend une valeur conventionnelle, toujours inscr
 
 ## Limites de la version 1
 
-- La biodiversité grise ne compte pas encore la pollution : les cinq indicateurs du RSEE sont affichés sans conversion (convention C-G8). Convertis par des facteurs ouverts, ils pèseraient de 4 à 13 % du climat ; leur ajout à Inat est proposé au Biodiversity Standard Council (note « Pollution et biodiversité grise »). L'étude Carbone 4, avec un autre modèle de l'écotoxicité des métaux, trouve une part bien plus forte.
+- La biodiversité grise ne compte pas encore la pollution : les cinq indicateurs du RSEE sont affichés sans conversion (convention C-G8). Convertis par des facteurs ouverts, ils pèseraient de 4 à 13 % du climat.
 - Le bois est fortement pénalisé par les conventions C-G4 et C-G5, premières à recalibrer.
 - La biodiversité grise n'est pas donnée par lot de la RE2020.
 - La zone climatique n'est pas déduite du département : la saisir ou la reprendre du RSEE.
-- Les seuils de Bnat, de pleine terre et de niveau sont en attente de validation du Biodiversity Standard Council ; Inat et Snat n'ont pas de seuil.
+- Les seuils de Bnat, de pleine terre et de niveau sont proposés ; Inat et Snat n'ont pas de seuil.

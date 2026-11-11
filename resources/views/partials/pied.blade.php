@@ -7,7 +7,7 @@
         </div>
         <div class="space-y-1">
             <p>Outil de calcul OpenNAT édité par IRICE.</p>
-            <p>Méthode, tables et moteur édités par NORMATYS, proposés au Biodiversity Standard Council.</p>
+            <p>Méthode, tables et moteur édités par NORMATYS.</p>
         </div>
         <ul class="space-y-1">
             <li><a href="{{ route('conditions') }}" class="hover:text-white">Conditions d'utilisation</a></li>

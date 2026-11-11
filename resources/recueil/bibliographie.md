@@ -22,7 +22,6 @@ Sources dont une valeur entre dans `donnees/` ou dont une règle fonde une équa
 | ADEME, Météo-France, CSTB, DHUP, Données climatiques prospectives France +2 °C, +2,7 °C et +4 °C, juin 2025, et note technique détaillée version 3.0 du 23 mai 2025 | années types horaires des huit stations de référence, stations, limites des pluies (fiches A43 à A45) | https://data.ademe.fr/datasets/donnees-climatologiques-prospectives-france-2c | Licence Ouverte 2.0 |
 | Météo-France, Données climatologiques de base mensuelles, fichiers MENSQ des départements 13, 35, 37, 47, 54, 71, 78 et 84 | normales de pluie 1991-2020, ETP Penman de contrôle (`climat.csv`) | https://www.data.gouv.fr/datasets/donnees-climatologiques-de-base-mensuelles | Licence Ouverte 2.0 |
 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 | interdiction de tailler haies et arbres du 16 mars au 15 août (fiche A57) | https://agriculture.gouv.fr/telecharger/135138 | Licence Ouverte 2.0 |
-| NORMATYS, référentiel Effinature 8.1, critère SOL 01.2.5 | seuils du coefficient de biotope et de la pleine terre | non public | propriété de NORMATYS |
 
 ## Modèles et données scientifiques
 

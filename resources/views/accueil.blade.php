@@ -8,7 +8,7 @@
     <section class="relative overflow-hidden bg-marine text-white">
         <div class="mx-auto max-w-6xl px-4 py-16 md:py-24 grid lg:grid-cols-12 gap-10 items-center">
             <div class="lg:col-span-7">
-                <p class="text-xs font-medium uppercase tracking-[0.2em] text-emerald-300">Méthode proposée au Biodiversity Standard Council</p>
+                <p class="text-xs font-medium uppercase tracking-[0.2em] text-emerald-300">Méthode ouverte, moteur libre</p>
                 <h1 class="mt-5 font-semibold text-4xl md:text-5xl leading-tight">La nature consommée par un projet, mesurée.</h1>
                 <p class="mt-6 text-lg text-white/85 leading-relaxed">
                     OpenNAT compte ce qu'un projet de construction prend à la nature, sur son site et par ses matériaux,
@@ -69,11 +69,11 @@
             </div>
             <div>
                 <h3 class="text-lg font-semibold text-encre">Qui fait quoi</h3>
-                <p class="mt-3">NORMATYS édite la méthode, ses tables et son moteur. La méthode est soumise au Biodiversity Standard Council, comité scientifique et technique des référentiels NORMATYS. IRICE édite l'outil de calcul.</p>
+                <p class="mt-3">NORMATYS édite la méthode, ses tables et son moteur. IRICE édite l'outil de calcul.</p>
             </div>
             <div>
                 <h3 class="text-lg font-semibold text-encre">Lire un résultat</h3>
-                <p class="mt-3">Tant que le Biodiversity Standard Council n'a pas validé la méthode, ses seuils sont des propositions et ses résultats ont une valeur indicative. Un niveau « absence de perte nette » ou « gain net » se cite avec la version de la méthode, le périmètre et les valeurs de Cnat et d'Inat.</p>
+                <p class="mt-3">Les seuils de la méthode sont des propositions et ses résultats ont une valeur indicative. Un niveau « absence de perte nette » ou « gain net » se cite avec la version de la méthode, le périmètre et les valeurs de Cnat et d'Inat.</p>
             </div>
         </div>
     </section>

@@ -26,8 +26,8 @@ AGPL-3.0-or-later, aucun secret dans le dépôt).
 - Contenu en français ; aucun chiffre en dur dans une vue : `config('opennat.*')`.
 - Outil hors de la portée d'accréditation d'IRICE : **aucune** mention d'accréditation ni de Cofrac, rien d'écrit à la
   place (règle 12 du groupe). Directive (UE) 2024/825 : un niveau du calcul se cite avec la version de la méthode, le
-  périmètre et les valeurs de Cnat et d'Inat. Le Biodiversity Standard Council est précisé à sa première occurrence
-  (« comité scientifique et technique des référentiels NORMATYS »). Le nom social de NORMATYS ne s'écrit jamais.
+  périmètre et les valeurs de Cnat et d'Inat. La plateforme ne cite ni le Biodiversity Standard Council ni
+  Effinature (décision du 11/11/2026). Le nom social de NORMATYS ne s'écrit jamais.
 - Recueil : `php artisan opennat:recueil [--revision=…]` copie les textes et PDF du dépôt OpenNAT dans
   `resources/recueil`, puis on committe ; l'image sert ce qui est dans le dépôt.
 - `public/build` est versionné (l'image ne lance pas npm) : `npm run build` puis `git add public/build` d'un bloc.

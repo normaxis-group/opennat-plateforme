@@ -2,8 +2,8 @@
 
 Méthode conventionnelle de calcul de la consommation de nature d'une opération de construction ou d'aménagement.
 
-Éditeur : NORMATYS. Application dans la certification Effinature : IRICE. Moteur de calcul libre : le moteur OpenNAT, qui porte le nom de la méthode.
-Version 1, 18 octobre 2026. Projet soumis à la validation du Biodiversity Standard Council : la méthode, ses conventions et ses seuils ne sont pas opposables tant que le conseil ne les a pas validés.
+Éditeur : NORMATYS. Moteur de calcul libre : le moteur OpenNAT, qui porte le nom de la méthode.
+Version 1, 18 octobre 2026, révision du 11 novembre 2026. La méthode, ses conventions et ses seuils sont proposés ; ils ne sont pas opposables.
 Texte et tables de données sous licence CC BY 4.0, chaque valeur portant la licence de sa source. Moteur sous licence AGPL-3.0-or-later.
 
 ---
@@ -484,11 +484,11 @@ La graine du générateur est écrite dans le fichier projet et dans le RSNat : 
 
 ## 10. Seuils proposés et modulations
 
-Tous les seuils de ce chapitre sont proposés et en attente de validation du Biodiversity Standard Council.
+Tous les seuils de ce chapitre sont proposés.
 
 ### 10.1 Bnat et pleine terre
 
-Seuils raccordés au coefficient de biotope par surface harmonisé du référentiel Effinature 8.1 (critère SOL 01.2.5, convention C-E6), modulés par la typologie et l'emprise (Mnat) :
+Seuils fixés par OpenNAT (convention C-E6), modulés par la typologie et l'emprise (Mnat) :
 
 | Typologie | Emprise du bâti | Bnat minimal |
 |---|---|---|
